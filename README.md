@@ -1,42 +1,42 @@
 # college-library-db
 
 
-<img src="banco-de-dados.png" alt="banco-de-dados">
+<img src="database.png" alt="database">
 
-> Com base em um trabalho avaliativo da faculdade, este repositório contém um aplicativo que simula uma biblioteca
-> universitária, com três níveis de acesso (usuários, admnistradores e bibliotecários).
+> Based on an evaluative work by the faculty, this repository contains an application that simulates a 
+> college library, with three levels of access (users, administrators and librarians).
 
-### Ajustes e melhorias
+### Adjustments and improvements
 
-O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas nas seguintes tarefas:
+The project is still under development and the next updates will focus on the following tasks:
 
-- [x] Escrever o script SQL do banco de dados
-- [x] Estabelecer a comunicação Python e MySQL
-- [ ] Implementar telas de interação
-
-
-## 💻 Pré-requisitos
-
-Antes de começar, verifique se você atendeu aos seguintes requisitos:
-<!---Estes são apenas requisitos de exemplo. Adicionar, duplicar ou remover conforme necessário--->
-* Versão mais recente de Python
-* Windows, Mac ou Linux, contanto que possua um interpretador
-
-## 📫 Contribuindo para <college-library-db>
-<!---Se o seu README for longo ou se você tiver algum processo ou etapas específicas que deseja que os contribuidores sigam, considere a criação de um arquivo CONTRIBUTING.md separado--->
-Para contribuir com <college-library-db>, siga estas etapas:
-
-1. Bifurque este repositório.
-2. Crie um branch: `git checkout -b <nome_branch>`.
-3. Faça suas alterações e confirme-as: `git commit -m '<mensagem_commit>'`
-4. Envie para o branch original: `git push origin <nome_do_projeto> / <local>`
-5. Crie a solicitação de pull.
-
-Como alternativa, consulte a documentação do GitHub em [como criar uma solicitação pull](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
+- [x] Write database SQL script
+- [x] Establish Python and MySQL communication
+- [ ] Implement interaction screens
 
 
-## 📝 Licença
+## 💻 Prerequisites
 
-Esse projeto está sob licença. Veja o arquivo [LICENÇA](LICENSE.md) para mais detalhes.
+Before starting, make sure you've met the following requirements:
+<!---These are example requirements only. Add, duplicate or remove as needed--->
+* Latest version of Python
+* Windows, Mac or Linux, as long as you have an interpreter
 
-[⬆ Voltar ao topo](#nome-do-projeto)<br>
+## 📫 Contributing to <college-library-db>
+<!---If your README is long or if you have any specific process or steps you want contributors to follow, consider creating a separate CONTRIBUTING.md file--->
+To contribute to <college-library-db>, follow these steps:
+
+1. Fork this repository.
+2. Create a branch: `git checkout -b <branch_name>`.
+3. Make your changes and commit them: `git commit -m '<message_commit>'`
+4. Push to the original branch: `git push origin <project_name> / <local>`
+5. Create the pull request.
+
+Alternatively, see the GitHub documentation at [how to create a pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request ).
+
+
+## 📝 License
+
+This project is under license. See the [LICENSE](LICENSE.md) file for more details.
+
+[⬆ Back to top](#project-name)<br>
