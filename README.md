@@ -22,9 +22,9 @@ Before starting, make sure you've met the following requirements:
 * Latest version of Python
 * Windows, Mac or Linux, as long as you have an interpreter
 
-## 📫 Contributing to <college-library-db>
+## 📫 Contributing to college-library-db
 <!---If your README is long or if you have any specific process or steps you want contributors to follow, consider creating a separate CONTRIBUTING.md file--->
-To contribute to <college-library-db>, follow these steps:
+To contribute to college-library-db, follow these steps:
 
 1. Fork this repository.
 2. Create a branch: `git checkout -b <branch_name>`.
@@ -39,4 +39,4 @@ Alternatively, see the GitHub documentation at [how to create a pull request](ht
 
 This project is under license. See the [LICENSE](LICENSE.md) file for more details.
 
-[⬆ Back to top](#project-name)<br>
+[⬆ Back to top](#college-library-db)<br>
