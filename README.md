@@ -1,7 +1,7 @@
 # college-library-db
 
 
-<img src="database.png" alt="database">
+<img src="database-example.png" alt="database-example">
 
 > Based on an evaluative work by the faculty, this repository contains an application that simulates a 
 > college library, with three levels of access (users, administrators and librarians).
