@@ -22,9 +22,9 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 * Versão mais recente de Python
 * Windows, Mac ou Linux, contanto que possua um interpretador
 
-## 📫 Contribuindo para <nome_do_projeto>
+## 📫 Contribuindo para <college-library-db>
 <!---Se o seu README for longo ou se você tiver algum processo ou etapas específicas que deseja que os contribuidores sigam, considere a criação de um arquivo CONTRIBUTING.md separado--->
-Para contribuir com <nome_do_projeto>, siga estas etapas:
+Para contribuir com <college-library-db>, siga estas etapas:
 
 1. Bifurque este repositório.
 2. Crie um branch: `git checkout -b <nome_branch>`.
