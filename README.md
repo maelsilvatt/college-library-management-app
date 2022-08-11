@@ -20,7 +20,10 @@ The project is still under development and the next updates will focus on the fo
 Before starting, make sure you've met the following requirements:
 <!---These are example requirements only. Add, duplicate or remove as needed--->
 * Latest version of Python
-* Windows, Mac or Linux, as long as you have an interpreter
+* Windows, Mac or Linux
+* MySQL
+* mysql-connector-python
+* Pandas
 
 ## 📝 License
 
