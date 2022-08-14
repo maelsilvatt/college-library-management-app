@@ -1,4 +1,5 @@
 # Used to clear the terminal screen
+from curses.ascii import isspace
 from os import system
 
 # Allows you to hide the typed password
@@ -22,7 +23,7 @@ MED_TIMER = 1
 BIG_TIMER = 4
 
 # Clear the terminal screen
-def clear(timer=LOW_TIMER):
+def clear(timer=BIG_TIMER):
 
     # Simple counter to smooth transitions
     sleep(timer)
@@ -76,10 +77,11 @@ def user_menu(cnx):
             print(f'{ANSI_CYAN}=-=-=-=-- Azure Library --=-=-=-=\n{ANSI_RESET}'
                   f'Welcome, {user}!\n'
                    '\n[ 1 ] Consult books'
-                   '\n[ 2 ] My borrowed books'
-                   '\n[ 3 ] Logout\n')
+                   '\n[ 2 ] My reserved books'
+                   '\n[ 3 ] My borrowed books'
+                   '\n[ 4 ] Logout\n')
             
-            menu = ['1', '2', '3']
+            menu = ['1', '2', '3', '4']
 
             # Gets the option typed
             option = input("Enter the desired operation: ")
@@ -95,123 +97,23 @@ def user_menu(cnx):
         # Consult books
         if option == '1': 
             consult_books(cnx)
+
+        # User reserved books
+        elif option == '2': 
+            user_reserved_books(cnx)
         
         # User borrowed books
-        elif option == '2': 
+        elif option == '3': 
             user_borrowed_books(cnx)
 
         # Logout to user screen
-        elif option == '3': 
+        elif option == '4': 
             cnx.close()
             screen_transition_message('Closing connection...')
             return
 
-# Interface for librarians
-def librarian_menu(cnx):
-
-    # Extracts the user name
-    user = cnx.user
-
-    while True:
-        clear()
-        while True:
-            print(f'{ANSI_CYAN}=-=-=-=-- Azure Library --=-=-=-=\n{ANSI_RESET}'
-                  f'Welcome, {user}\n!'
-                  '\n[ 1 ] Consult books'
-                  '\n[ 2 ] Consult users'
-                  '\n[ 3 ] Borrow requests'
-                  '\n[ 4 ] Consult borrowed books'
-                  '\n[ 5 ] Logout\n')
-
-            # Gets the option typed
-            option = input("Enter the desired operation: ")
-            menu = ['1', '2', '3', '4']
-
-            # Checks if the option exists
-            if option not in menu:
-                screen_transition_message()
-            
-            # Otherwise, skips to the next block
-            else:
-                break
-    
-        # Consult books
-        if option == '1': 
-            consult_books(cnx)
-
-        # Consult users
-        elif option == '2': 
-            consult_users(cnx)
-
-        # Borrow requests
-        elif option == '3':
-            borrow_requests(cnx)
-
-        # Consult borrowed books
-        elif option == '4':
-            consult_borrowed_books(cnx)
-
-        # Logout
-        if option == '5': 
-            cnx.close()
-            screen_transition_message('Closing connection...')
-
-# Interface for administrators
-def admin_menu(cnx):
-
-    # Extracts the user name
-    user = cnx.user
-
-    while True:
-        print(f'{ANSI_CYAN}=-=-=-=-- Azure Library --=-=-=-=\n{ANSI_RESET}'
-              f'Welcome, {user}!\n'
-              '\n[ 1 ] Register user'
-              '\n[ 2 ] Remove user'
-              '\n[ 3 ] Register book'
-              '\n[ 4 ] Consult books'
-              '\n[ 5 ] Borrow requests'
-              '\n[ 6 ] Logout\n')
-
-        # Gets the option typed
-        option = input("Enter the desired operation: ")
-        menu = ['1', '2', '3', '4', '5', '6']
-
-        # Checks if the option exists
-        if option not in menu:
-            screen_transition_message()
-
-        # Otherwise, skips to the next block
-        else:
-            break
-
-    # Register user
-    if option == '1': 
-        register_user(cnx)
-
-    # Remove user
-    elif option == '2': 
-        remove_user(cnx)
-    
-    # Register book
-    elif option == '3': 
-        register_book(cnx)
-
-    # Consult books
-    elif option == '4': 
-        consult_books(cnx)
-
-    # Borrow requests
-    elif option == '5': 
-        borrow_requests(cnx)
-
-    # Logout
-    elif option == '6': 
-        cnx.close()
-        screen_transition_message('Closing connection...')
-
-
 # Screen for book consultation
-def consult_books(cnx, user_acess='user'):
+def consult_books(cnx, common_user=True):
 
     # Control variable to ensure the title is correct
     empty_result = True
@@ -266,16 +168,18 @@ def consult_books(cnx, user_acess='user'):
                 empty_result = False
                 break
 
-    # This block is only displayed for common users
-    if user_acess == 'user':
-        while True:
-            clear()
-            print(f'{ANSI_CYAN}=-=-=-=-- Azure Library --=-=-=-=\n{ANSI_RESET}'
-                f'Displaying results for "{title}": '
-                f'{ANSI_YELLOW}{books}{ANSI_RESET}'
-                '\nDo you want to reserve one of the titles?'
-                '\n[ 1 ] Yes'
-                '\n[ 2 ] No\n')
+    
+    while True:
+        clear()
+        print(f'{ANSI_CYAN}=-=-=-=-- Azure Library --=-=-=-=\n{ANSI_RESET}'
+            f'Displaying results for "{title}":\n'
+            f'{ANSI_YELLOW}{books}{ANSI_RESET}')
+
+        # This block is only displayed for common users
+        if common_user:
+            print('\nDo you want to reserve one of the titles?'
+                    '\n[ 1 ] Yes'
+                    '\n[ 2 ] No\n')
 
             # Gets the option typed
             option = input("Enter the desired operation: ")
@@ -296,53 +200,9 @@ def consult_books(cnx, user_acess='user'):
                 screen_transition_message('Returning to main menu.')
                 return
 
-    # If not a regular user, this block is executed
-    else:
-        entry = input('To return, press anything.')
-
-        if entry != '':
-            return
-
-# Displays specific users
-def consult_users(cnx):
-    while True:
-        clear()
-
-        # Loop to receive the username
-        while True:
-            print(f'{ANSI_CYAN}=-=-=-=-- Azure Library --=-=-=-=\n{ANSI_RESET}')
-
-            # Gets the option typed
-            name = input("Enter username: ")
-
-            # Checks if the entered name is valid
-            if name.isspace() or len(name) < 3:
-                screen_transition_message('Empty field or too short. Please try again')
-            
-            # Gets a dataframe with the search result
-            users = db.get_users(name, cnx)
-
-            # If there are no results, an error message is displayed
-            if users.empty:
-                screen_transition_message(f'No results for "{name}". Please try again.', timer = BIG_TIMER)
-                continue
-
-            # Otherwise, skips to the next block
-            else:
-                break
-
-        # Loop that displays found users
-        while True:
-            clear()
-            print(f'{ANSI_CYAN}=-=-=-=-- Azure Library --=-=-=-=\n{ANSI_RESET}'
-                  f'Results for "{name}": '
-                  f'{ANSI_YELLOW}{name}{ANSI_RESET}\n')
-
-            entry = input('To return, press anything.')
-
-            if entry != '':
-                return
-            
+        else:
+            _ = input('\nTo return, press anything.')
+            return            
 
 
 # Screen responsible for book reservations
@@ -373,14 +233,11 @@ def book_reservations(books, cnx):
             elif option == '1':
 
                 # Extracts the ISBN code of the chosen book
-                isbn_code = books["isbn_code"][0]
-
-                # Extracts the title of the chosen book
-                title = books["title"][0]
+                isbn_code = books["isbn_code"][0]                
 
                 # Calls the internal method responsible for confirming the reservation
                 # and terminate the thread if no errors occur
-                db.reserve_book(title, isbn_code, cnx)
+                db.reserve_book(isbn_code, cnx)
 
                 return
 
@@ -397,44 +254,149 @@ def book_reservations(books, cnx):
                   f'{ANSI_YELLOW}{books}{ANSI_RESET}')
 
             # Receives the value of the index, being exclusively integers
-            index = int(input('\nEnter the index of the book you want to book: '))
+            index = int(input('\nEnter the index of the book you want to reserve: '))
 
             # Checks if the index exists
             if index not in range(book_count):
-                screen_transition_message(f'There is no book with index {index}. Please try again.')
+                screen_transition_message(f'There is no book with index {index}. Please try again.', timer=BIG_TIMER)
 
             # If the index is correct, this block is executed
             else:
 
                 # Extracts the ISBN code of the chosen book
-                isbn_code = books["isbn_code"][index]
-
-                # Extracts the title of the chosen book
-                title = books["title"][index]
+                isbn_code = books["isbn_code"][index]                
 
                 # Calls the internal method responsible for confirming the reservation
                 # and terminate the thread if no errors occur
-                db.reserve_book(title, isbn_code, cnx)
+                db.reserve_book(isbn_code, cnx)
 
                 # Displays a message notifying the user that the operation is complete
-                screen_transition_message('Done! your book is waiting. Ask a librarian to authorize the loan.')
+                print('Done! your book is waiting.\n')
+                
+                _ = input('To return, press anything.')
                 return True
-    
-# Displays all user borrowed_books
-def user_borrowed_books(cnx):
+
+
+# Shows all users reserved books
+def user_reserved_books(cnx):
+
+    # Gets a dataframe containing all reservations
+    reservations = db.user_reserved_books(cnx)
     while True:
         clear()
         print(f'{ANSI_CYAN}=-=-=-=-- Azure Library --=-=-=-=\n{ANSI_RESET}'
-              f'My borrowed_books:\n')
+                'My reservations:\n'
+                f'{reservations}\n')            
 
-        # Gets a dataframe containing all user borrowed_books
-        borrowed_books = db.my_loans(cnx)
+        _ = input('To return, press anything.')
+        return            
 
-        # If there are no borrowed_books, a warning screen is displayed, ending the thread
-        if borrowed_books.empty:
-            screen_transition_message('You dont have any borrowed books yet.\nReturning to main menu.', timer=BIG_TIMER)
-            return
+
+# Displays all user borrowed_books
+def user_borrowed_books(cnx):
+
+    # Gets a dataframe containing all user borrowed_books
+    user_borrowed_books = db.get_user_borrowed_books(cnx)    
+
+    while True:
+        clear()
+        print(f'{ANSI_CYAN}=-=-=-=-- Azure Library --=-=-=-=\n{ANSI_RESET}'
+              'My borrowed books:\n'
+              f'{user_borrowed_books}\n')
+
+        _ = input('To return, press anything.')
+        return
+
+
+# Interface for librarians
+def librarian_menu(cnx):
+
+    # Extracts the user name
+    user = cnx.user
+
+    while True:
+        clear()
+        while True:
+            print(f'{ANSI_CYAN}=-=-=-=-- Azure Library --=-=-=-=\n{ANSI_RESET}'
+                  f'Welcome, {user}!\n'
+                  '\n[ 1 ] Consult books'
+                  '\n[ 2 ] Consult users'
+                  '\n[ 3 ] Borrow requests'
+                  '\n[ 4 ] Consult borrowed books'
+                  '\n[ 5 ] Logout\n')
+
+            # Gets the option typed
+            option = input("Enter the desired operation: ")
+            menu = ['1', '2', '3', '4', '5']
+
+            # Checks if the option exists
+            if option not in menu:
+                screen_transition_message()
+            
+            # Otherwise, skips to the next block
+            else:
+                break
     
+        # Consult books
+        if option == '1': 
+            consult_books(cnx, common_user=False)
+
+        # Consult users
+        elif option == '2': 
+            consult_users(cnx)
+
+        # Borrow requests
+        elif option == '3':
+            borrow_requests(cnx)
+
+        # Consult borrowed books
+        elif option == '4':
+            consult_borrowed_books(cnx)
+
+        # Logout
+        if option == '5': 
+            cnx.close()
+            screen_transition_message('Closing connection...')
+            return
+
+# Displays specific users
+def consult_users(cnx):
+    while True:
+        clear()
+
+        # Loop to receive the username
+        while True:            
+            print(f'{ANSI_CYAN}=-=-=-=-- Azure Library --=-=-=-=\n{ANSI_RESET}')
+
+            # Gets the user name to be found
+            login = input("Enter user login: ")
+
+            # Checks if the entered name is valid
+            if login.isspace() or len(login) < 3:
+                screen_transition_message('Empty field or too short. Please try again')
+            
+            # Gets a dataframe with the search result
+            user = db.get_user(login, cnx)
+
+            # If there are no results, an error message is displayed
+            if user.empty:
+                screen_transition_message(f'No results for "{login}". Please try again.', timer = BIG_TIMER)
+                continue
+
+            # Otherwise, skips to the next blocks
+            else:
+                break
+
+        # Loop that displays found users
+        while True:
+            clear()
+            print(f'{ANSI_CYAN}=-=-=-=-- Azure Library --=-=-=-=\n{ANSI_RESET}'                  
+                  f'{ANSI_YELLOW}{user}{ANSI_RESET}\n')
+                        
+            _ = input('To return, press anything.')
+            return
+            
+
 # Screen that displays all the reservations of a user
 def borrow_requests(cnx):
     while True:
@@ -442,14 +404,15 @@ def borrow_requests(cnx):
         print(f'{ANSI_CYAN}=-=-=-=-- Azure Library --=-=-=-=\n{ANSI_RESET}')
 
         # Receives the user's registration for later consultation
-        registration = input(f'Enter user registration:\n')
+        registration = input(f'Enter user registration: ')
 
         # Gets a dataframe with all reservations from the specified user
         reservations = db.get_reservations(registration, cnx)
 
         # If there are no borrowed_books, a warning screen is displayed
         if reservations.empty:
-            screen_transition_message(f'There are no reservations for the user with registration "{registration}".', timer=BIG_TIMER)
+            print(f'There are no reservations for the user with registration "{registration}".')
+            return
 
         # Otherwise, skips to the next block
         else:
@@ -461,30 +424,220 @@ def borrow_requests(cnx):
     while True:
         clear()
         print(f'{ANSI_CYAN}=-=-=-=-- Azure Library --=-=-=-=\n{ANSI_RESET}'
-              f'Displaying all reservations made for the registration user "{matricula}":\n'
-              f'{ANSI_YELLOW}{reservations}{ANSI_RESET}')
+              f'Displaying all reservations made for the registration "{registration}":\n\n'
+              f'{ANSI_YELLOW}{reservations}{ANSI_RESET}\n')
 
         # Receives the value of the index, being exclusively integers
-        index = int(input('\nEnter the index of the request to confirm it: '))
+        index = int(input('Enter the index of the request to confirm it: '))
 
         # Checks if the index exists
         if index not in range(reservation_count):
-            screen_transition_message(f'There is no reservation with index {index}. Please try again.')
+            print(f'There is no reservation with index {index}.')
 
         # If the index is correct, this block is executed
         else:
 
             # Extracts the ISBN code of the chosen book
-            isbn_code = reservations["isbn_code"][index]
-
-            # Extracts the title of the chosen book
-            title = reservations["title"][index]
+            isbn_code = reservations["isbn_code"][index]            
 
             # Calls the internal method responsible for confirming the reservation
             # and terminate the thread if no errors occur
-            db.borrow_book(title, registration, isbn_code, cnx)
+            db.borrow_book(registration, isbn_code, cnx)
 
             # Displays a message notifying the user that the operation is complete
-            screen_transition_message('Done! borrowing confirmed.')
+            print('Done! borrowing confirmed.')
+
+            _ = input('To return, press anything.')
+
             return True
+
+
+# Displays all borrowed books
+def consult_borrowed_books(cnx):
+
+    # Gets a dataframe containing all borrowings
+    borrowed_books = db.get_borrowed_books
+
+    while True:
+        clear()
+        print(f'{ANSI_CYAN}=-=-=-=-- Azure Library --=-=-=-={ANSI_RESET}\n\n'
+              f'{borrowed_books}\n')
+
+        _ = input('To return, press anything.')
+        return
+
+
+# Interface for administrators
+def admin_menu(cnx):
+
+    # Extracts the user name
+    user = cnx.user
+
+    while True:
+        clear()
+        print(f'{ANSI_CYAN}=-=-=-=-- Azure Library --=-=-=-=\n{ANSI_RESET}'
+              f'Welcome, {user}!\n'
+              '\n[ 1 ] Register an user'
+              '\n[ 2 ] Remove an user'
+              '\n[ 3 ] Register a book'
+              '\n[ 4 ] Remove a book'
+              '\n[ 5 ] Consult books'
+              '\n[ 6 ] Borrow requests'
+              '\n[ 7 ] Logout\n')
+
+        # Gets the option typed
+        option = input("Enter the desired operation: ")
+        menu = ['1', '2', '3', '4', '5', '6']
+
+        # Checks if the option exists
+        if option not in menu:
+            screen_transition_message()
+
+        # Otherwise, skips to the next block
+        else:
+            break
+
+    # Register an user
+    if option == '1': 
+        register_user(cnx)
+
+    # Remove an user
+    elif option == '2': 
+        remove_user(cnx)
+    
+    # Register a book
+    elif option == '3': 
+        register_book(cnx)
+
+    # Remove a book
+    elif option == '3': 
+        remove_book(cnx)
+
+    # Consult books
+    elif option == '4': 
+        consult_books(cnx)
+
+    # Borrow requests
+    elif option == '5': 
+        borrow_requests(cnx)
+
+    # Logout
+    elif option == '6': 
+        cnx.close()
+        screen_transition_message('Closing connection...')
+        return
+
+# Registers a new user on the system
+def register_user(cnx):
+    while True:
+        clear()
+        print(f'{ANSI_CYAN}=-=-=-=-- Azure Library --=-=-=-=\n{ANSI_RESET}')
+
+        login = input("Enter new user's login: ")
+
+        if db.get_user(login, cnx).empty:
+            break
+
+        print('\nThe inserted login is already in use. Try again.')
+
+    while True:
+        clear()
+        print(f'{ANSI_CYAN}=-=-=-=-- Azure Library --=-=-=-=\n{ANSI_RESET}')
+
+        password = input("Enter new user's password (length >= 4): ")
+
+        if len(password) < 4:
+            print('This password is too short.')
+            continue
+
+        if password.isspace:
+            print('Please enter a non space filled password.')
+            continue
+
+        break
+    
+    while True:
+        clear()
+        print(f'{ANSI_CYAN}=-=-=-=-- Azure Library --=-=-=-=\n{ANSI_RESET}')
+
+        acess = input('Enter the acess level:\n' 
+                      '[ 1 ] Common user\n'
+                      '[ 2 ] Librarian\n'
+                      '[ 3 ] Administrator\n')
+        
+        menu =  ['1', '2', '3']
+
+        if acess not in menu:
+            print('Please enter a valid option.')
+            continue
+
+        break
+
+    if acess == '1':
+        while True:
+            clear()
+            print(f'{ANSI_CYAN}=-=-=-=-- Azure Library --=-=-=-=\n{ANSI_RESET}')
+
+            user_type = input("Enter user's category:\n"
+                        '[ 1 ] Student\n'
+                        '[ 2 ] Employee\n'
+                        '[ 3 ] Professor\n')
             
+            menu =  ['1', '2', '3']
+
+            if user_type not in menu:
+                print('Please enter a valid option.')
+                continue
+
+            registration = input("Enter the registration: ")
+
+            name = input("Enter the name: ")
+
+            adress = input("Enter the adress: ")
+            
+            break
+
+        if user_type == '1':            
+            clear()
+            print(f'{ANSI_CYAN}=-=-=-=-- Azure Library --=-=-=-=\n{ANSI_RESET}')                
+
+            entry_date = input("Enter the entry date (YYYY-mm-dd): ")
+
+            expected_completition_date = input("Enter the expected completition date (YYYY-mm-dd): ")
+
+            course_code = input("Enter the course code: ")
+
+            user_data = {'user_type':'student', 'registration':registration, 'name':name, 'entry_date':entry_date, \
+                        'expected_completition_date':expected_completition_date, 'adress':adress, 'course_code':course_code}
+
+        if user_type == '2':
+            user_data = {'user_type':'employee', 'registration':registration, 'name':name,'adress':adress}
+
+        if user_type == '3':            
+            clear()
+            print(f'{ANSI_CYAN}=-=-=-=-- Azure Library --=-=-=-=\n{ANSI_RESET}')                
+
+            hiring_date = input("Enter the entry date (YYYY-mm-dd): ")
+
+            work_regime = input("Enter the work regime (DE, 40h, 20h): ")
+
+            cell_phone = input("Enter the cell phone: ")
+
+            course_code = input("Enter the course code: ")
+
+            user_data = {'user_type':'professor', 'registration':registration, 'name':name, 'hiring_date':hiring_date, \
+                        'work_regime':work_regime, 'adress':adress, 'cell_phone':cell_phone, 'course_code':course_code}
+
+        db.register_user(login, password, cnx, user_data)        
+
+    elif acess == '2':
+        register_user(login, password, cnx, acess='librarian')
+
+    elif acess == '3':
+        register_user(login, password, cnx, acess='admin')
+
+    print(f'User {login} created sucessfully!')
+    return
+
+
+
