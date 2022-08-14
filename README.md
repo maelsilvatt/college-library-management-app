@@ -3,7 +3,7 @@
 
 <img src="database-example.png" alt="database-example">
 
-> Based on an evaluative work by the faculty, this repository contains an application that simulates a 
+> Based on an evaluative work by my college, this repository contains an application that simulates a 
 > college library, with three levels of access (users, administrators and librarians).
 
 ### Adjustments and improvements
@@ -13,6 +13,9 @@ The project is still under development and the next updates will focus on the fo
 - [x] Write database SQL script
 - [x] Establish Python and MySQL communication
 - [ ] Implement interaction screens
+	- [x] Common users screens
+	- [x] Librarians screens
+	- [ ] Administrators screens
 
 
 ## 💻 Prerequisites
