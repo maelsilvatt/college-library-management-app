@@ -100,8 +100,7 @@ CREATE TABLE IF NOT EXISTS authors_write_books (
 )  DEFAULT CHARSET=UTF8;
     
 CREATE TABLE IF NOT EXISTS book_borrowings (
-	id_book_borrowings INT NOT NULL AUTO_INCREMENT,
-    title VARCHAR(100) NULL,
+	id_book_borrowings INT NOT NULL AUTO_INCREMENT,    
     borrow_date DATE,
     devolution_date DATE,
     isbn_code VARCHAR(30) NOT NULL,
