@@ -184,7 +184,7 @@ CREATE VIEW books_by_author AS
 SET GLOBAL log_bin_trust_function_creators = 1;
 
 DELIMITER //
-CREATE DEFINER = 'root'@'localhost' FUNCTION `get_user_acess` (registration INT) RETURNS VARCHAR(11)
+CREATE DEFINER = 'root'@'localhost' FUNCTION `get_user_type` (registration INT) RETURNS VARCHAR(11)
 BEGIN
     DECLARE type VARCHAR(11);
     
@@ -375,7 +375,7 @@ INSERT INTO authors_write_books (isbn_code, author_email) VALUES
 -- Users
 DROP USER IF EXISTS 'admin'@'%';
 CREATE USER 'admin'@'%' IDENTIFIED BY 'admin';
-GRANT ALL PRIVILEGES ON `college_library_db`.* TO 'admin'@'%';
+GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT, REFERENCES, RELOAD on *.* TO 'admin'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 
 DROP USER IF EXISTS 'librarian'@'%';
@@ -402,7 +402,7 @@ GRANT SELECT ON `college_library_db`.`books_by_category` TO 'lenoar_vieira'@'%';
 GRANT SELECT ON `college_library_db`.`books_by_publisher` TO 'lenoar_vieira'@'%';
 GRANT SELECT ON `college_library_db`.`books_by_release` TO 'lenoar_vieira'@'%';
 GRANT SELECT ON `college_library_db`.`books_by_author` TO 'lenoar_vieira'@'%';
-GRANT EXECUTE ON FUNCTION `college_library_db`.`get_user_acess` TO 'lenoar_vieira'@'%';
+GRANT EXECUTE ON FUNCTION `college_library_db`.`get_user_type` TO 'lenoar_vieira'@'%';
 FLUSH PRIVILEGES;
 
 DROP USER IF EXISTS 'alexandremmota'@'%';
@@ -415,7 +415,7 @@ GRANT SELECT ON `college_library_db`.`books_by_category` TO 'alexandremmota'@'%'
 GRANT SELECT ON `college_library_db`.`books_by_publisher` TO 'alexandremmota'@'%';
 GRANT SELECT ON `college_library_db`.`books_by_release` TO 'alexandremmota'@'%';
 GRANT SELECT ON `college_library_db`.`books_by_author` TO 'alexandremmota'@'%';
-GRANT EXECUTE ON FUNCTION `college_library_db`.`get_user_acess` TO 'alexandremmota'@'%';
+GRANT EXECUTE ON FUNCTION `college_library_db`.`get_user_type` TO 'alexandremmota'@'%';
 FLUSH PRIVILEGES;
 
 DROP USER IF EXISTS 'adrianopaulo728'@'%';
@@ -427,7 +427,7 @@ GRANT SELECT ON `college_library_db`.`book_borrowings` TO 'adrianopaulo728'@'%';
 GRANT SELECT ON `college_library_db`.`books_by_publisher` TO 'adrianopaulo728'@'%';
 GRANT SELECT ON `college_library_db`.`books_by_release` TO 'adrianopaulo728'@'%';
 GRANT SELECT ON `college_library_db`.`books_by_author` TO 'adrianopaulo728'@'%';
-GRANT EXECUTE ON FUNCTION `college_library_db`.`get_user_acess` TO 'adrianopaulo728'@'%';
+GRANT EXECUTE ON FUNCTION `college_library_db`.`get_user_type` TO 'adrianopaulo728'@'%';
 FLUSH PRIVILEGES;
 
 DROP USER IF EXISTS 'kevin_ferreira120'@'%';
@@ -440,7 +440,7 @@ GRANT SELECT ON `college_library_db`.`books_by_category` TO 'kevin_ferreira120'@
 GRANT SELECT ON `college_library_db`.`books_by_publisher` TO 'kevin_ferreira120'@'%';
 GRANT SELECT ON `college_library_db`.`books_by_release` TO 'kevin_ferreira120'@'%';
 GRANT SELECT ON `college_library_db`.`books_by_author` TO 'kevin_ferreira120'@'%';
-GRANT EXECUTE ON FUNCTION `college_library_db`.`get_user_acess` TO 'kevin_ferreira120'@'%';
+GRANT EXECUTE ON FUNCTION `college_library_db`.`get_user_type` TO 'kevin_ferreira120'@'%';
 FLUSH PRIVILEGES;
 
 DROP USER IF EXISTS 'leandro_paulla'@'%';
@@ -453,7 +453,7 @@ GRANT SELECT ON `college_library_db`.`books_by_category` TO 'leandro_paulla'@'%'
 GRANT SELECT ON `college_library_db`.`books_by_publisher` TO 'leandro_paulla'@'%';
 GRANT SELECT ON `college_library_db`.`books_by_release` TO 'leandro_paulla'@'%';
 GRANT SELECT ON `college_library_db`.`books_by_author` TO 'leandro_paulla'@'%';
-GRANT EXECUTE ON FUNCTION `college_library_db`.`get_user_acess` TO 'leandro_paulla'@'%';
+GRANT EXECUTE ON FUNCTION `college_library_db`.`get_user_type` TO 'leandro_paulla'@'%';
 FLUSH PRIVILEGES;
 
 DROP USER IF EXISTS 'wagnerlopes'@'%';
@@ -466,7 +466,7 @@ GRANT SELECT ON `college_library_db`.`books_by_category` TO 'wagnerlopes'@'%';
 GRANT SELECT ON `college_library_db`.`books_by_publisher` TO 'wagnerlopes'@'%';
 GRANT SELECT ON `college_library_db`.`books_by_release` TO 'wagnerlopes'@'%';
 GRANT SELECT ON `college_library_db`.`books_by_author` TO 'wagnerlopes'@'%';
-GRANT EXECUTE ON FUNCTION `college_library_db`.`get_user_acess` TO 'wagnerlopes'@'%';
+GRANT EXECUTE ON FUNCTION `college_library_db`.`get_user_type` TO 'wagnerlopes'@'%';
 FLUSH PRIVILEGES;
 
 DROP USER IF EXISTS 'rodriguesbastiao'@'%';
@@ -479,7 +479,7 @@ GRANT SELECT ON `college_library_db`.`books_by_category` TO 'rodriguesbastiao'@'
 GRANT SELECT ON `college_library_db`.`books_by_publisher` TO 'rodriguesbastiao'@'%';
 GRANT SELECT ON `college_library_db`.`books_by_release` TO 'rodriguesbastiao'@'%';
 GRANT SELECT ON `college_library_db`.`books_by_author` TO 'rodriguesbastiao'@'%';
-GRANT EXECUTE ON FUNCTION `college_library_db`.`get_user_acess` TO 'rodriguesbastiao'@'%';
+GRANT EXECUTE ON FUNCTION `college_library_db`.`get_user_type` TO 'rodriguesbastiao'@'%';
 FLUSH PRIVILEGES;
 
 DROP USER IF EXISTS 'leia_albuquerque4829'@'%';
@@ -492,7 +492,7 @@ GRANT SELECT ON `college_library_db`.`books_by_category` TO 'leia_albuquerque482
 GRANT SELECT ON `college_library_db`.`books_by_publisher` TO 'leia_albuquerque4829'@'%';
 GRANT SELECT ON `college_library_db`.`books_by_release` TO 'leia_albuquerque4829'@'%';
 GRANT SELECT ON `college_library_db`.`books_by_author` TO 'leia_albuquerque4829'@'%';
-GRANT EXECUTE ON FUNCTION `college_library_db`.`get_user_acess` TO 'leia_albuquerque4829'@'%';
+GRANT EXECUTE ON FUNCTION `college_library_db`.`get_user_type` TO 'leia_albuquerque4829'@'%';
 FLUSH PRIVILEGES;
 
 DROP USER IF EXISTS 'lucas_limamatos223'@'%';
@@ -505,7 +505,7 @@ GRANT SELECT ON `college_library_db`.`books_by_category` TO 'lucas_limamatos223'
 GRANT SELECT ON `college_library_db`.`books_by_publisher` TO 'lucas_limamatos223'@'%';
 GRANT SELECT ON `college_library_db`.`books_by_release` TO 'lucas_limamatos223'@'%';
 GRANT SELECT ON `college_library_db`.`books_by_author` TO 'lucas_limamatos223'@'%';
-GRANT EXECUTE ON FUNCTION `college_library_db`.`get_user_acess` TO 'lucas_limamatos223'@'%';
+GRANT EXECUTE ON FUNCTION `college_library_db`.`get_user_type` TO 'lucas_limamatos223'@'%';
 FLUSH PRIVILEGES;
 
 DROP USER IF EXISTS 'joaquim_domingos'@'%';
@@ -518,7 +518,7 @@ GRANT SELECT ON `college_library_db`.`books_by_category` TO 'joaquim_domingos'@'
 GRANT SELECT ON `college_library_db`.`books_by_publisher` TO 'joaquim_domingos'@'%';
 GRANT SELECT ON `college_library_db`.`books_by_release` TO 'joaquim_domingos'@'%';
 GRANT SELECT ON `college_library_db`.`books_by_author` TO 'joaquim_domingos'@'%';
-GRANT EXECUTE ON FUNCTION `college_library_db`.`get_user_acess` TO 'joaquim_domingos'@'%';
+GRANT EXECUTE ON FUNCTION `college_library_db`.`get_user_type` TO 'joaquim_domingos'@'%';
 FLUSH PRIVILEGES;
 
 DROP USER IF EXISTS 'leandro_martins'@'%';
@@ -531,5 +531,5 @@ GRANT SELECT ON `college_library_db`.`books_by_category` TO 'leandro_martins'@'%
 GRANT SELECT ON `college_library_db`.`books_by_publisher` TO 'leandro_martins'@'%';
 GRANT SELECT ON `college_library_db`.`books_by_release` TO 'leandro_martins'@'%';
 GRANT SELECT ON `college_library_db`.`books_by_author` TO 'leandro_martins'@'%';
-GRANT EXECUTE ON FUNCTION `college_library_db`.`get_user_acess` TO 'leandro_martins'@'%';
+GRANT EXECUTE ON FUNCTION `college_library_db`.`get_user_type` TO 'leandro_martins'@'%';
 FLUSH PRIVILEGES;
