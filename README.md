@@ -12,11 +12,7 @@ The project is still under development and the next updates will focus on the fo
 
 - [x] Model and write database SQL script
 - [x] Establish dialog between app and database
-- [x] Implement interaction screens
-	- [x] Common user screen
-	- [x] Librarian screen
-	- [x] Admin screen
-- [ ] Testing
+- [x] Implement acess privilege screens	
 
 ## 💻 Prerequisites
 
